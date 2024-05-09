@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Bilateral Guided Radiance Field Processing</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:image" content="https://bilarfpro.github.io/img/teaser.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1500">
+    <meta property="og:image:height" content="1143">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bilarfpro.github.io"/>
+    <meta property="og:title" content="Bilateral Guided Radiance Field Processing" />
+    <meta property="og:description" content="In the training stage, we jointly optimize per-view 3D bilateral grids with NeRF to disentangle photometric variation, achieving floater-free view synthesis. In the finishing stage, we propose a radiance-finishing approach that can lift 2D view retouching to the whole 3D scene, using a low-rank 4D bilateral grid." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bilateral Guided Radiance Field Processing" />
+    <meta name="twitter:description" content="In the training stage, we jointly optimize per-view 3D bilateral grids with NeRF to disentangle photometric variation, achieving floater-free view synthesis. In the finishing stage, we propose a radiance-finishing approach that can lift 2D view retouching to the whole 3D scene, using a low-rank 4D bilateral grid." />
+    <meta name="twitter:image" content="https://bilarfpro.github.io/img/teaser.jpg" />
+
+
+    <link rel="shortcut icon" href="/favicon.png" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bulma-tabs.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+    <script src="js/video_comparison.js"></script>
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row" style="margin-top: 20px;">
+            <h2 class="col-md-12 text-center">
+                Bilateral Guided Radiance Field Processing</br> 
+                <small>
+                    SIGGRAPH (TOG) 2024
+                </small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a href="https://yuehaowang.github.io/" style="font-size: 15px;">
+                          Yuehao Wang
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/1ss0dumb" style="font-size: 15px;">
+                            Chaoyi Wang
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://s2.hk/" style="font-size: 15px;">
+                          Bingchen Gong
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://tianfan.info/" style="font-size: 15px;">
+                          Tianfan Xue
+                        </a>
+                    </li>
+                    </br>
+                </ul>
+                <span style="font-size: 15px; padding-top: 10px;">The Chinese University of Hong Kong</span>
+            </div>
+        </div>
+        <br>
+
+
+        <div class="row" style="margin-top: 10px;">
+                <div class="col-4 col-offset-4 text-center" style="display: flex; justify-content: center;">
+                    <ul class="nav nav-pills">
+                        <li>
+                            <a href="">
+                            <image src="img/paper_thumbnail.png" height="60px" style="border: 1px solid #ddd;">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                            <image src="img/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                            <image src="img/github.png" height="60px">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                            <image src="img/database_icon.png" height="60px">
+                                <h4><strong>Data</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <video id="v0" width="100%" autoplay loop muted controls>
+                  <source src="img/teaser.mp4" type="video/mp4" />
+                </video>
+                <p class="text-left" style="margin-top: 10px;">
+                    <b>TL;DR:</b> We propose a radiance field processing pipeline: 1) <i>Bilateral guided training</i> can merge input views with photometric variation over radiance field optimization.
+                    2) <i>Bilateral guided finishing</i> can achieve 3D-level enhancement by lifting a user-provided single view editing to 3D. 
+                    <!-- Our method facilitates floater-free NeRF reconstruction and enables NeRF editing with <i>Adobe Lightroom</i>&reg;. -->
+                </p>
+			</div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    Neural Radiance Fields (NeRF) achieves unprecedented performance in synthesizing novel view synthesis, utilizing multi-view consistency. When capturing multiple inputs, image signal processing (ISP) in modern cameras will independently enhance them, including exposure adjustment, color correction, local tone mapping, etc. While these processings greatly improve image quality, they often break the multi-view consistency assumption, leading to "floaters" in the reconstructed radiance fields. To address this concern without compromising visual aesthetics, we aim to first disentangle the enhancement by ISP at the NeRF training stage and re-apply user-desired enhancements to the reconstructed radiance fields at the finishing stage. Furthermore, to make the re-applied enhancements consistent between novel views, we need to perform imaging signal processing in 3D space (i.e. "3D ISP"). For this goal, we adopt the bilateral grid, a locally-affine model, as a generalized representation of ISP processing. Specifically, we optimize per-view 3D bilateral grids with radiance fields to approximate the effects of camera pipelines for each input view. To achieve user-adjustable 3D finishing, we propose to learn a low-rank 4D bilateral grid from a given single view edit, lifting photo enhancements to the whole 3D scene. We demonstrate our approach can boost the visual quality of novel view synthesis by effectively removing floaters and performing enhancements from user retouching.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <br>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Disentangle ISP enhancements
+                </h3>
+                Image signal processing (ISP) enhances each captured view independently. This brings in photometric variation for NeRF models and will cause "floaters" in the synthesized novel views.
+                Our bilateral guided NeRF training addresses this issue by disentangling per-view enhancements.
+                <video class="video" width=100% id="baselinecmp" loop playsinline autoplay muted src="img/baseline_cmp_concat.mp4" onplay="resizeAndPlay(this, 1.0)"></video>
+                <canvas height=0 class="videoMerge" id="baselinecmpMerge"></canvas>
+                <p class="text-justify" style="margin-top: 10px;">
+                    In this case, the scene is captured under varying exposure and ISO, using a cell phone camera.
+                    Floaters appear in the baseline result (left), but our method (right) can synthesize clean novel views.
+                </p>
+            </div>
+        </div>
+           
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    3D retouching
+                </h3>
+                <div class="bulma-tabs">
+                    <ul>
+                        <!-- <li class="bulma-tab is-active" onclick="openTab(event, '3dretouch_bike')"><a href="javascript:void(0)">Bicycle</a></li> -->
+                        <!-- <li class="bulma-tab" onclick="openTab(event, '3dretouch_rrsscibldg')"><a href="javascript:void(0)">Science Building</a></li> -->
+                        <!-- <li class="bulma-tab" onclick="openTab(event, '3dretouch_sysstatue')"><a href="javascript:void(0)">Statue</a></li> -->
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_garden')"><a href="javascript:void(0)">Garden</a></li>
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_stump')"><a href="javascript:void(0)">Stump</a></li>
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_eliothall')"><a href="javascript:void(0)">Eliot Hall</a></li>
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_lionpavilion')"><a href="javascript:void(0)">Pavilion</a></li>
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_windowlego')"><a href="javascript:void(0)">Lego</a></li>
+                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_pondbike')"><a href="javascript:void(0)">Pond & Bike</a></li>
+                    </ul>
+                </div>
+                <div style="overflow: hidden; aspect-ratio: 1.5;" id="tab-content">
+                    <!-- <div id="3dretouch_bike" class="bulma-content-tab">
+                        <video id="bicycle_demo" width="100%" autoplay loop muted controls>
+                            <source src="img/bicycle_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_rrsscibldg" class="bulma-content-tab" style="display: none;">
+                        <video id="ssrscibldg_demo" width="100%" style="object-position: 50% top;" autoplay loop muted controls>
+                            <source src="img/ssrscibldg_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_sysstatue" class="bulma-content-tab" style="display: none;">
+                        <video id="sysstatue_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/sysstatue_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div> -->
+                    <div id="3dretouch_garden" class="bulma-content-tab">
+                        <video id="garden_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/garden_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_eliothall" class="bulma-content-tab" style="display: none;">
+                        <video id="eliothall_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/eliothall_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_lionpavilion" class="bulma-content-tab" style="display: none;">
+                        <video id="lionpavilion_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/lionpavilion_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_windowlego" class="bulma-content-tab" style="display: none;">
+                        <video id="windowlego_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/windowlego_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_pondbike" class="bulma-content-tab" style="display: none;">
+                        <video id="pondbike_demo" width="100%" style="object-position: 50% top;" autoplay loop muted controls>
+                            <source src="img/pondbike_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                    <div id="3dretouch_stump" class="bulma-content-tab" style="display: none;">
+                        <video id="pondbike_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                            <source src="img/stump_demo.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+                <p class="text-justify" style="margin-top: 20px;">
+                    Our proposed bilateral guided finishing enables 3D-level human-adjusted enhancements.
+                    Users can simply select a rendered view and retouch it in an image editor (e.g.,  <i>Adobe Lightroom</i>&reg;). Then, our method can lift the 2D editing to the whole scene, achieving compelling renditions consistently over synthesized views.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    More applications
+                </h3>
+                <div class="col-8 col-offset-2" style="margin-top: 20px;">
+                    <video id="hdrfusion_demo" width="100%" autoplay loop muted>
+                        <source src="img/hdrfusion_sharpshadow_concat.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (a) Input images w/ varying exposure
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (b) Radiance field with HDR fusion
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (c) Tone-mapped by our 3D finishing
+                        </p>
+                    </div>
+                </div>
+                <p class="text-justify">
+                    <b>HDR fusion</b> in NeRF via our bilateral guided training. Best-exposed parts of the input images (a) with varying exposure are fused into a HDR radiance field (b).
+                    Our radiance-finishing can further adjust the color tone of the fused radiance fields by lifting a single view enhancement (c).
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <video class="video" width=100% id="varyinglighting" loop playsinline autoplay muted src="img/varyinglighting.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
+                        <canvas height=0 class="videoMerge" id="varyinglightingMerge"></canvas>
+                        <p class="text-justify" style="margin-top: 10px;">
+                            <b>Varying lighting</b> across input views causes "disco" artifacts on the baseline results (left). While our method (right) can somewhat disentangle the impacts of varying lights.
+                        </p>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <video class="video" width=100% id="recoloring" loop playsinline autoplay muted src="img/kitchen_concat.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
+                        <canvas height=0 class="videoMerge" id="recoloringMerge"></canvas>
+                        <p class="text-justify" style="margin-top: 10px;">
+                            <b>Recoloring</b> objects in the scene can be achieved by our proposed local and edge-aware radiance-finishing operator in the bilateral space. 
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-8 col-offset-2" style="margin-top: 20px;">
+                    <video id="photostyletransfer_demo" width="100%" autoplay loop muted>
+                        <source src="img/pts_demo1.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <p class="text-justify" style="margin-top: 10px;">
+                    <b>3D photorealistic style transfer</b>. We first transfer the reference style to a selected view,
+                    then lift the 2D view stylization to the whole 3D scene using our proposed radiance-finishing via a low-rank 4D bilateral grid.
+                </p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related Work
+                </h3>
+                <p class="text-justify">
+                    This work stands on the shoulders of many prior papers. Especially, the following work illuminated us significantly:</p>
+                <ul>
+                    <li><a href="https://people.csail.mit.edu/sparis/publi/2007/siggraph/Chen_07_Bilateral_Grid.pdf">Real-time Edge-aware Image Processing with the Bilateral Grid</a> introduces the bilateral grid data structure, which is the fundamental of our method. We further adopt this operator to process 3D scenes.</li>
+                    <li><a href="https://people.csail.mit.edu/hasinoff/pubs/ChenEtAl16-bgu.pdf">Bilateral Guided Upsampling</a> and <a href="https://arxiv.org/pdf/1707.02880.pdf">HDRNet</a> demonstrate that the bilateral grid is a universal approximator for various image enhancements and can work with neural networks due to its differentiability.</li>
+                    <li><a href="https://arxiv.org/pdf/2203.09517.pdf">TensoRF</a> shows the effectiveness of low-rank approximation for 3D representations.</li>
+                    <li><a href="https://arxiv.org/pdf/2111.13679.pdf">RawNeRF</a> first incorporates camera pipelines into NeRF.</li>
+                    <li>Our method pipeline resembles the classic <a href="https://research.google/pubs/burst-photography-for-high-dynamic-range-and-low-light-imaging-on-mobile-cameras/">HDR+</a> algorithm, which first merges a burst of frames into an HDR image and then applies local tone mapping for photo-finishing.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                If you find this work helpful, please consider citing:
+                <div class="text-left" style="background-color:#eeeeee; margin-top: 10px;">
+<pre><code>@article{wang2024bilateral,
+    title={Bilateral Guided Radiance Field Processing},
+    author={Wang, Yuehao and Wang, Chaoyi and Gong, Bingchen and Xue, Tianfan},
+    journal={Arxiv},
+    year={2024}
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                    We thank all anonymous reviewers for their constructive feedback and suggestions. We thank Ruikang Li for discussing image signal processing with us. We also thank Wang Wei, Xuejing Huang, and Chengkun Li for their assistance in making the video demo and capturing the dataset.
+                <br><br>
+                The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a> and <a href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>.
+                </p>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
