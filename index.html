@@ -121,7 +121,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <video id="v0" width="100%" autoplay loop muted controls>
-                  <source src="img/teaser.mp4" type="video/mp4" />
+                  <source src="img/teaser.mp4#t=0.5" type="video/mp4" />
                 </video>
                 <p class="text-left" style="margin-top: 10px;">
                     <b>TL;DR:</b> We propose a radiance field processing pipeline: 1) <i>Bilateral guided training</i> can merge input views with photometric variation over radiance field optimization.
@@ -143,7 +143,6 @@
             </div>
         </div>
 
-
         <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
@@ -157,20 +156,21 @@
             </div>
         </div> -->
 
-        <br>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Disentangle ISP enhancements
                 </h3>
-                Image signal processing (ISP) enhances each captured view independently. This brings in photometric variation for NeRF models and will cause "floaters" in the synthesized novel views.
-                Our bilateral guided NeRF training addresses this issue by disentangling per-view enhancements.
-                <video class="video" width=100% id="baselinecmp" loop playsinline autoplay muted src="img/baseline_cmp_concat.mp4" onplay="resizeAndPlay(this, 1.0)"></video>
-                <canvas height=0 class="videoMerge" id="baselinecmpMerge"></canvas>
-                <p class="text-justify" style="margin-top: 10px;">
+                <p class="text-justify">
+                    Image signal processing (ISP) enhances each captured view independently. This brings in photometric variation for NeRF models and will cause "floaters" in the synthesized novel views.
+                    Our bilateral guided NeRF training addresses this issue by disentangling per-view enhancements.
+                </p>
+                <p class="text-justify">
                     In this case, the scene is captured under varying exposure and ISO, using a cell phone camera.
                     Floaters appear in the baseline result (left), but our method (right) can synthesize clean novel views.
                 </p>
+                <video class="video" width=100% id="baselinecmp" loop autoplay muted src="img/baseline_cmp_concat.mp4" onplay="resizeAndPlay(this, 1.0)"></video>
+                <canvas style="margin-top: -10px;" height=0 class="videoMerge" id="baselinecmpMerge"></canvas>
             </div>
         </div>
            
@@ -179,6 +179,10 @@
                 <h3>
                     3D retouching
                 </h3>
+                <p class="text-justify" style="margin-top: 20px;">
+                    Our proposed bilateral guided finishing enables 3D-level human-adjusted enhancements.
+                    Users can simply select a rendered view and retouch it in an image editor (e.g.,  <i>Adobe Lightroom</i>&reg;). Then, our method can lift the 2D editing to the whole scene, achieving compelling renditions consistently over synthesized views.
+                </p>
                 <div class="bulma-tabs">
                     <ul>
                         <!-- <li class="bulma-tab is-active" onclick="openTab(event, '3dretouch_bike')"><a href="javascript:void(0)">Bicycle</a></li> -->
@@ -193,73 +197,58 @@
                     </ul>
                 </div>
                 <div style="overflow: hidden; aspect-ratio: 1.5;" id="tab-content">
-                    <!-- <div id="3dretouch_bike" class="bulma-content-tab">
-                        <video id="bicycle_demo" width="100%" autoplay loop muted controls>
-                            <source src="img/bicycle_demo.mp4" type="video/mp4" />
-                        </video>
-                    </div>
-                    <div id="3dretouch_rrsscibldg" class="bulma-content-tab" style="display: none;">
-                        <video id="ssrscibldg_demo" width="100%" style="object-position: 50% top;" autoplay loop muted controls>
-                            <source src="img/ssrscibldg_demo.mp4" type="video/mp4" />
-                        </video>
-                    </div>
-                    <div id="3dretouch_sysstatue" class="bulma-content-tab" style="display: none;">
-                        <video id="sysstatue_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/sysstatue_demo.mp4" type="video/mp4" />
-                        </video>
-                    </div> -->
                     <div id="3dretouch_garden" class="bulma-content-tab">
                         <video id="garden_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/garden_demo.mp4" type="video/mp4" />
+                            <source src="img/garden_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_eliothall" class="bulma-content-tab" style="display: none;">
                         <video id="eliothall_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/eliothall_demo.mp4" type="video/mp4" />
+                            <source src="img/eliothall_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_lionpavilion" class="bulma-content-tab" style="display: none;">
                         <video id="lionpavilion_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/lionpavilion_demo.mp4" type="video/mp4" />
+                            <source src="img/lionpavilion_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_windowlego" class="bulma-content-tab" style="display: none;">
                         <video id="windowlego_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/windowlego_demo.mp4" type="video/mp4" />
+                            <source src="img/windowlego_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_pondbike" class="bulma-content-tab" style="display: none;">
                         <video id="pondbike_demo" width="100%" style="object-position: 50% top;" autoplay loop muted controls>
-                            <source src="img/pondbike_demo.mp4" type="video/mp4" />
+                            <source src="img/pondbike_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_stump" class="bulma-content-tab" style="display: none;">
                         <video id="pondbike_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
-                            <source src="img/stump_demo.mp4" type="video/mp4" />
+                            <source src="img/stump_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                 </div>
-                <p class="text-justify" style="margin-top: 20px;">
-                    Our proposed bilateral guided finishing enables 3D-level human-adjusted enhancements.
-                    Users can simply select a rendered view and retouch it in an image editor (e.g.,  <i>Adobe Lightroom</i>&reg;). Then, our method can lift the 2D editing to the whole scene, achieving compelling renditions consistently over synthesized views.
-                </p>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top: 10px;">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
-                    More applications
+                    HDR fusion
                 </h3>
+                <p class="text-justify">
+                    Our bilateral guided training can achieve HDR fusion in NeRF. Best-exposed parts of the input images (a) with varying exposure are fused into a HDR radiance field (b).
+                    Our radiance-finishing can further adjust the color tone of the fused radiance fields by lifting a single view enhancement (c).
+                </p>
                 <div class="col-8 col-offset-2" style="margin-top: 20px;">
                     <video id="hdrfusion_demo" width="100%" autoplay loop muted>
-                        <source src="img/hdrfusion_sharpshadow_concat.mp4" type="video/mp4" />
+                        <source src="img/hdrfusion_sharpshadow_concat.mp4#t=0.5" type="video/mp4" />
                     </video>
                 </div>
                 <div class="row">
                     <div class="col-xs-4">
                         <p class="text-center">
-                            (a) Input images w/ varying exposure
+                            (a) Input samples w/ varying exposure
                         </p>
                     </div>
                     <div class="col-xs-4">
@@ -273,37 +262,70 @@
                         </p>
                     </div>
                 </div>
-                <p class="text-justify">
-                    <b>HDR fusion</b> in NeRF via our bilateral guided training. Best-exposed parts of the input images (a) with varying exposure are fused into a HDR radiance field (b).
-                    Our radiance-finishing can further adjust the color tone of the fused radiance fields by lifting a single view enhancement (c).
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Disentangle varying lighting
+                </h3>
+                <p class="text-justify" style="margin-top: 10px;">
+                    Varying lighting across input views (a) causes "disco" artifacts on the baseline results (b). While our method (c) can somewhat disentangle the impacts of varying lights.
                 </p>
-
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <video class="video" width=100% id="varyinglighting" loop playsinline autoplay muted src="img/varyinglighting.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
-                        <canvas height=0 class="videoMerge" id="varyinglightingMerge"></canvas>
-                        <p class="text-justify" style="margin-top: 10px;">
-                            <b>Varying lighting</b> across input views causes "disco" artifacts on the baseline results (left). While our method (right) can somewhat disentangle the impacts of varying lights.
-                        </p>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <video class="video" width=100% id="recoloring" loop playsinline autoplay muted src="img/kitchen_concat.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
-                        <canvas height=0 class="videoMerge" id="recoloringMerge"></canvas>
-                        <p class="text-justify" style="margin-top: 10px;">
-                            <b>Recoloring</b> objects in the scene can be achieved by our proposed local and edge-aware radiance-finishing operator in the bilateral space. 
-                        </p>
-                    </div>
-                </div>
-
                 <div class="col-8 col-offset-2" style="margin-top: 20px;">
                     <video id="photostyletransfer_demo" width="100%" autoplay loop muted>
-                        <source src="img/pts_demo1.mp4" type="video/mp4" />
+                        <source src="img/varyinglighting.mp4#t=0.5" type="video/mp4" />
                     </video>
                 </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (a) Input samples w/ varying lighting
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (b) Results of ZipNeRF baseline
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="text-center">
+                            (c) Results of bilateral guided training
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Object Recoloring
+                </h3>
                 <p class="text-justify" style="margin-top: 10px;">
-                    <b>3D photorealistic style transfer</b>. We first transfer the reference style to a selected view,
+                    In this case, we first edit the color of the bulldozer in a single view, then train the low-rank 4D bilateral grid on the 2D editing to perform 3D-level recoloring.
+                    The local and edge-aware operator in the bilateral space will only change the color of the subject without affecting surrounding areas.
+                </p>
+                <video class="video" width=100% id="recoloring" loop autoplay muted src="img/kitchen_concat.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
+                <canvas style="margin-top: -10px;" height=0 class="videoMerge" id="recoloringMerge"></canvas>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    3D photorealistic style transfer
+                </h3>
+                <p class="text-justify" style="margin-top: 10px;">
+                    We first transfer the reference style to a selected view,
                     then lift the 2D view stylization to the whole 3D scene using our proposed radiance-finishing via a low-rank 4D bilateral grid.
                 </p>
+                <div style="margin-top: 20px;">
+                    <video id="photostyletransfer_demo" width="100%" autoplay loop muted>
+                        <source src="img/pts_demo1.mp4#t=0.5" type="video/mp4" />
+                    </video>
+                </div>
             </div>
         </div>
 
