@@ -86,34 +86,34 @@
 
 
         <div class="row" style="margin-top: 10px;">
-                <div class="col-4 col-offset-4 text-center" style="display: flex; justify-content: center;">
-                    <ul class="nav nav-pills">
-                        <li>
-                            <a href="">
-                            <image src="img/paper_thumbnail.png" height="60px" style="border: 1px solid #ddd;">
-                                <h4><strong>Paper</strong></h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                            <image src="img/youtube_icon.png" height="60px">
-                                <h4><strong>Video</strong></h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/yuehaowang/bilarf">
-                            <image src="img/github.png" height="60px">
-                                <h4><strong>Code</strong></h4>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://huggingface.co/datasets/Yuehao/bilarf_data">
-                            <image src="img/database_icon.png" height="60px">
-                                <h4><strong>Data</strong></h4>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-4 col-offset-4 text-center" style="display: flex; justify-content: center;">
+                <ul class="nav nav-pills">
+                    <li>
+                        <a href="">
+                        <image src="img/paper_thumbnail.png" height="60px" style="border: 1px solid #ddd;">
+                            <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://youtu.be/yKmkXJSlAl8">
+                        <image src="img/youtube_icon.png" height="60px">
+                            <h4><strong>Video</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/yuehaowang/bilarf">
+                        <image src="img/github.png" height="60px">
+                            <h4><strong>Code</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://huggingface.co/datasets/Yuehao/bilarf_data">
+                        <image src="img/database_icon.png" height="60px">
+                            <h4><strong>Data</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
 
@@ -124,7 +124,7 @@
                   <source src="img/teaser.mp4#t=0.5" type="video/mp4" />
                 </video>
                 <p class="text-left" style="margin-top: 10px;">
-                    <b>TL;DR:</b> We propose a radiance field processing pipeline: 1) <i>Bilateral guided training</i> can merge input views with photometric variation over radiance field optimization.
+                    We propose a radiance field processing pipeline: 1) <i>Bilateral guided training</i> can merge input views with photometric variation over radiance field optimization.
                     2) <i>Bilateral guided finishing</i> can achieve 3D-level enhancement by lifting a user-provided single view editing to 3D. 
                     <!-- Our method facilitates floater-free NeRF reconstruction and enables NeRF editing with <i>Adobe Lightroom</i>&reg;. -->
                 </p>
@@ -137,24 +137,24 @@
                 <h3>
                     Abstract
                 </h3>
-                <p class="text-justify">
+                <p class="text-justify pb-0">
                     Neural Radiance Fields (NeRF) achieves unprecedented performance in synthesizing novel view synthesis, utilizing multi-view consistency. When capturing multiple inputs, image signal processing (ISP) in modern cameras will independently enhance them, including exposure adjustment, color correction, local tone mapping, etc. While these processings greatly improve image quality, they often break the multi-view consistency assumption, leading to "floaters" in the reconstructed radiance fields. To address this concern without compromising visual aesthetics, we aim to first disentangle the enhancement by ISP at the NeRF training stage and re-apply user-desired enhancements to the reconstructed radiance fields at the finishing stage. Furthermore, to make the re-applied enhancements consistent between novel views, we need to perform imaging signal processing in 3D space (i.e. "3D ISP"). For this goal, we adopt the bilateral grid, a locally-affine model, as a generalized representation of ISP processing. Specifically, we optimize per-view 3D bilateral grids with radiance fields to approximate the effects of camera pipelines for each input view. To achieve user-adjustable 3D finishing, we propose to learn a low-rank 4D bilateral grid from a given single view edit, lifting photo enhancements to the whole 3D scene. We demonstrate our approach can boost the visual quality of novel view synthesis by effectively removing floaters and performing enhancements from user retouching.
                 </p>
             </div>
         </div>
 
-        <!-- <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 15px;">
                 <h3>
                     Video
                 </h3>
                 <div class="text-center">
                     <div style="position:relative;padding-top:56.25%;">
-                        
+                        <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/yKmkXJSlAl8?si=lKJ_2ZyMuNxwP4Nu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -162,7 +162,8 @@
                     Disentangle ISP enhancements
                 </h3>
                 <p class="text-justify">
-                    Image signal processing (ISP) enhances each captured view independently. This brings in photometric variation for NeRF models and will cause "floaters" in the synthesized novel views.
+                    When capturing multi-view images for training NeRF, the image signal processing (ISP) in the camera program enhances each captured view independently.
+                    This results in photometric variations in the NeRF input, leading to "floaters" in the synthesized novel views.
                     Our bilateral guided NeRF training addresses this issue by disentangling per-view enhancements.
                 </p>
                 <p class="text-justify">
@@ -177,15 +178,15 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
-                    3D retouching
+                    Lift 2D enhancements to 3D
                 </h3>
                 <p class="text-justify" style="margin-top: 20px;">
                     Our proposed bilateral guided finishing enables 3D-level human-adjusted enhancements.
-                    Users can simply select a rendered view and retouch it in an image editor (e.g.,  <i>Adobe Lightroom</i>&reg;). Then, our method can lift the 2D editing to the whole scene, achieving compelling renditions consistently over synthesized views.
+                    Users can simply select a rendered view and retouch it in an image editor (e.g.,  Adobe Lightroom&reg;). Then, our method can lift the 2D editing to the whole scene, achieving compelling renditions consistently over synthesized views.
                 </p>
                 <div class="bulma-tabs">
                     <ul>
-                        <li class="bulma-tab" onclick="openTab(event, '3dretouch_garden')"><a href="javascript:void(0)">Garden</a></li>
+                        <li class="bulma-tab is-active" onclick="openTab(event, '3dretouch_garden')"><a href="javascript:void(0)">Garden</a></li>
                         <li class="bulma-tab" onclick="openTab(event, '3dretouch_stump')"><a href="javascript:void(0)">Stump</a></li>
                         <li class="bulma-tab" onclick="openTab(event, '3dretouch_eliothall')"><a href="javascript:void(0)">Building</a></li>
                         <li class="bulma-tab" onclick="openTab(event, '3dretouch_lionpavilion')"><a href="javascript:void(0)">Lion Pavilion</a></li>
@@ -195,32 +196,32 @@
                 </div>
                 <div style="overflow: hidden; aspect-ratio: 1.5; margin-bottom: 10px;" id="tab-content">
                     <div id="3dretouch_garden" class="bulma-content-tab">
-                        <video id="garden_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                        <video id="garden_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted>
                             <source src="img/garden_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_eliothall" class="bulma-content-tab" style="display: none;">
-                        <video id="eliothall_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                        <video id="eliothall_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted>
                             <source src="img/eliothall_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_lionpavilion" class="bulma-content-tab" style="display: none;">
-                        <video id="lionpavilion_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                        <video id="lionpavilion_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted>
                             <source src="img/lionpavilion_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_windowlego" class="bulma-content-tab" style="display: none;">
-                        <video id="windowlego_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                        <video id="windowlego_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted>
                             <source src="img/windowlego_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_pondbike" class="bulma-content-tab" style="display: none;">
-                        <video id="pondbike_demo" width="100%" style="object-position: 50% top;" autoplay loop muted controls>
+                        <video id="pondbike_demo" width="100%" style="object-position: 50% top;" autoplay loop muted>
                             <source src="img/pondbike_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
                     <div id="3dretouch_stump" class="bulma-content-tab" style="display: none;">
-                        <video id="pondbike_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted controls>
+                        <video id="pondbike_demo" width="100%" style="object-position: 50% bottom;" autoplay loop muted>
                             <source src="img/stump_demo.mp4#t=0.5" type="video/mp4" />
                         </video>
                     </div>
@@ -302,7 +303,7 @@
                 </h3>
                 <p class="text-justify" style="margin-top: 10px;">
                     In this case, we first edit the color of the bulldozer in a single view, then train the low-rank 4D bilateral grid on the 2D editing to perform 3D-level recoloring.
-                    The local and edge-aware operator in the bilateral space will only change the color of the subject without affecting surrounding areas.
+                    The local and edge-aware operator in the bilateral space will change the color of the subject without significantly affecting surrounding areas.
                 </p>
                 <video class="video" width=100% id="recoloring" loop autoplay muted src="img/kitchen_concat.mp4" onplay="resizeAndPlay(this, 0.5)"></video>
                 <canvas style="margin-top: -10px; margin-bottom: 10px;" height=0 class="videoMerge" id="recoloringMerge"></canvas>
@@ -321,6 +322,24 @@
                 <div style="margin-top: 20px;">
                     <video id="photostyletransfer_demo" width="100%" autoplay loop muted>
                         <source src="img/pts_demo1.mp4#t=0.5" type="video/mp4" />
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Live demo
+                </h3>
+                <p class="text-justify" style="margin-top: 10px;">
+                    We develop a simple interactive 3D editor with our method, built on the <a href="https://github.com/kwea123/ngp_pl">ngp_pl</a> backbone
+                    (a PyTorch implementation of <a href="https://nvlabs.github.io/instant-ngp/">Instant-NGP</a>).
+                    To try our method with other backbones, please check out the <a href="https://github.com/yuehaowang/bilarf?tab=readme-ov-file#lib_bilagridpy">lib_bilagrid.py</a> module.
+                </p>
+                <div style="margin-top: 20px;">
+                    <video id="photostyletransfer_demo" width="100%" muted controls>
+                        <source src="img/live_video.mp4" type="video/mp4" />
                     </video>
                 </div>
             </div>
